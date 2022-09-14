@@ -28,7 +28,7 @@ if level < 10:
 
     # Run if person asked for a bag
     elif getBag:
-        attacker.create_cc_nx(cc, 0, charismaMod, "short", "bubble", None, None, "Bag of duck's", desc)
+        attacker.create_cc_nx(cc, 0, "charismaMod", "short", "bubble", None, None, "Bag of duck's", desc)
         result = "Ducks !"
         resultDesc = "Big bag with some ducks inside.\nThey seems quite hostile, maybe try throwing them at someone?"
         return f'''embed -title "{result}" -desc "{resultDesc}" -f "{cc}|{attacker.cc_str(cc)}" -thumb "{image}"'''

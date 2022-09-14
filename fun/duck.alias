@@ -36,15 +36,15 @@ if level < 10:
     # Run if we have target and bag and ducks in it
     # Make a DEX save roll and remove 1 charge from CC
     elif target and attacker.cc_exists(cc) and attacker.get_cc(cc):
-        sroll = vroll(character().saves.get('dex').d20())
-        saveRoll = sroll.total
+        check = vroll("1d20")
+        roll20 = check.total
         attacker.mod_cc(cc, -1)
-        if saveRoll < 10+dexterityMod:
+        if roll20 < 10+dexterityMod:
             result = f"{attacker.name} throws a duck at {target}"
-            resultDesc = f"**DC:** {10+dexterityMod}\n**Dexterity Save:** {sroll}\nThe duck flys at {target} face and starts flapping about.\nThere is a big comotion."
+            resultDesc = f"**DC:** {10+dexterityMod}\n**Roll 1d20: ** {roll20}\nThe duck flys at {target} face and starts flapping about.\nThere is a big comotion."
         else:
             result = f"{attacker.name} tries to throw a duck at {target}"
-            resultDesc = f"**DC:** {10+dexterityMod}\n**Dexterity Save:** {sroll}\nThe duck almost hits {target} but they've managed to duck.\nThe duck flys away."
+            resultDesc = f"**DC:** {10+dexterityMod}\n**Roll 1d20: ** {roll20}\nThe duck almost hits {target} but they've managed to duck.\nThe duck flys away."
         return f'''embed -title "{result}" -desc "{resultDesc}" -f "{cc}|{attacker.cc_str(cc)}" -thumb "{image}"'''
 
     elif attacker.get_cc(cc) < 1:

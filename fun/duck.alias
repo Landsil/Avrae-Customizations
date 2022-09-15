@@ -6,25 +6,18 @@ you       = character()           # grab character using alias
 
 # Grab custom arguments added by user
 target    = args.last("t", "someone")        # Shortcut for target
-matchBag  = ['bag', 'please']
-matchgive = ['give', 'hand']
-matchpet  = ['pet', 'feed']
-matchfree = ['free', 'release']
-matchcatch = ['look for', 'chase', 'catch', 'recover', 'grab']
-matchthrow = ['throw', 'attack']
-
-getBag    = any(item in args for item in matchBag) # This will return list of matches but we will only check is it's not empty
-give      = any(item in args for item in matchgive)
-pet       = any(item in args for item in matchpet)
-free      = any(item in args for item in matchfree)
-catch     = any(item in args for item in matchcatch)
-throw     = any(item in args for item in matchthrow)
-
 title     = args.last('title', "")
 desc      = args.last('desc', "")
 thumb     = args.last('thumb', image)
 image     = args.last('image', image)
 footer    = "`!duck` alias made by Landsil"
+
+getBag  = "&1&" if "&1&".lower() in ['bag', 'please'] else False
+give  = "&1&" if "&1&".lower() in ['give', 'hand'] else False
+pet  = "&1&" if "&1&".lower() in ['pet', 'feed'] else False
+free  = "&1&" if "&1&".lower() in ['free', 'release', 'unleash'] else False
+catch  = "&1&" if "&1&".lower() in ['look', 'chase', 'catch', 'recover', 'grab', 'search'] else False
+throw  = "&1&" if "&1&".lower() in ['throw', 'attack'] else False
 
 result    = "broken result path"
 resultDesc = "broken resultDesc path"
@@ -48,24 +41,24 @@ if level < 10:
     elif give and you.cc_exists(cc) and you.get_cc(cc):
         you.mod_cc(cc, -1)
         result = "How generous of you"
-        resultDesc = f"{you} give a duck to {target}.\nIt seems supprised but doesn't mind?"
+        resultDesc = f"You {give} a duck to {target}.\nDuck seems supprised but doesn't mind?"
         return f'''embed -title "{result}" -desc "{resultDesc}" -f "{cc}|{you.cc_str(cc)}" -footer "{footer}" -thumb "{image}"'''
 
     # Pet the duck
     elif pet and you.cc_exists(cc) and you.get_cc(cc):
         result = "It's fluffy"
-        resultDesc = f"You take a duck out and pet and feed it.\nIt seems content and happy.\nIt hops back into the bag afterwards."
+        resultDesc = f"You take a duck out and {pet} it.\nIt seems content and happy.\nIt hops back into the bag afterwards."
         return f'''embed -title "{result}" -desc "{resultDesc}" -f "{cc}|{you.cc_str(cc)}" -footer "{footer}" -thumb "{image}"'''
 
     # You set a duck free
     elif free and you.cc_exists(cc) and you.get_cc(cc):
         you.mod_cc(cc, -1)
         result = "They will be back"
-        resultDesc = f"You free a duck to roam around unrestricted.\nIt waddles away menacingly as you contemplate what you've just done. "
+        resultDesc = f"You {free} a duck to roam around unrestricted.\nIt waddles away menacingly as you contemplate what you've just done. "
         return f'''embed -title "{result}" -desc "{resultDesc}" -f "{cc}|{you.cc_str(cc)}" -footer "{footer}" -thumb "{image}"'''
 
     # You try to catch extra ducks.
-    elif catch:
+    elif catch and you.cc_exists(cc) and you.get_cc(cc) :
         if vroll("1d20").total > 14:
             if  vroll("1d20").total > 14:
                 you.mod_cc(cc, +1)

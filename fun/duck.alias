@@ -59,19 +59,21 @@ if level < 10:
 
     # You try to catch extra ducks.
     elif catch and you.cc_exists(cc):
-        if vroll("1d20").total > 10:
-            if  vroll("1d20").total > 10:
+        pr = vroll(you.skills.perception.d20())
+        ar = vroll(you.skills.animalHandling.d20())
+        if pr.total > 10:
+            if  ar.total > 10:
                 you.mod_cc(cc, +1)
                 result = "You got one"
-                resultDesc = f"You've found a duck and it decided to join you."
+                resultDesc = f"**DC:** 10\n**Perception** {pr}\n\n**DC:** 10\n**Animal Handling** {ar}\nYou've found a duck and it decided to join you."
                 return f'''embed -title "{result}" -desc "{resultDesc}" -f "{cc}|{you.cc_str(cc)}" -footer "{footer}" -thumb "{image}"'''
             else:
                 result = "So close"
-                resultDesc = f"This duck doesn't seem interested in joining you."
+                resultDesc = f"**DC:** 10\n**Perception** {pr}\nYou've noticed a wondering duck.\n**DC:** 10\n**Animal Handling** {ar}\nThis duck doesn't seem interested in joining you."
                 return f'''embed -title "{result}" -desc "{resultDesc}" -f "{cc}|{you.cc_str(cc)}" -footer "{footer}" -thumb "{image}"'''
         else:
             result = "Kinda empty around here"
-            resultDesc = f"There don't seem to be any ducks arond here"
+            resultDesc = f"**DC:** 10\n**Perception** {pr}\nThere don't seem to be any ducks around here"
             return f'''embed -title "{result}" -desc "{resultDesc}" -f "{cc}|{you.cc_str(cc)}" -footer "{footer}" -thumb "{image}"'''
 
 

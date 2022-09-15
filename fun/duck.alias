@@ -2,21 +2,32 @@
 # Variables
 args      = argparse(&ARGS&)      # Arguments after alias
 cc        = "Bag of Ducks"        # Name of CC
-c         = combat()              # grab combat data 
-attacker  = character()           # grab character using alias
-target    = args.last("t")        # Shortcut for target
-matchBag  = ['bag', 'please']
-getBag    = any(item in args for item in matchBag) # This will return list of matches but we will only check is it's not empty
+you       = character()           # grab character using alias
 
 # Grab custom arguments added by user
+target    = args.last("t", "someone")        # Shortcut for target
+matchBag  = ['bag', 'please']
+matchgive = ['give', 'hand']
+matchpet  = ['pet', 'feed']
+matchfree = ['free', 'release']
+matchcatch = ['look for', 'chase', 'catch', 'recover', 'grab']
+matchthrow = ['throw', 'attack']
+
+getBag    = any(item in args for item in matchBag) # This will return list of matches but we will only check is it's not empty
+give      = any(item in args for item in matchgive)
+pet       = any(item in args for item in matchpet)
+free      = any(item in args for item in matchfree)
+catch     = any(item in args for item in matchcatch)
+throw     = any(item in args for item in matchthrow)
+
 title     = args.last('title', "")
 desc      = args.last('desc', "")
 thumb     = args.last('thumb', image)
 image     = args.last('image', image)
+footer    = "`!duck` alias made by Landsil"
 
 result    = "broken result path"
 resultDesc = "broken resultDesc path"
-helpText  = "helpText"
 
 # Lvl < 10 or reject
 if level < 10:
@@ -24,36 +35,74 @@ if level < 10:
     if not &ARGS& or &ARGS&[0].lower() in "?help":
         result = "Need Help?"
         resultDesc = "You seems to have lost your bag. If you say please you can get a new one.\nRemember that you can't use it if you are too powerfull."
-        return f'''embed -title "{result}" -desc "{resultDesc}" -thumb "{image}"'''
+        return f'''embed -title "{result}" -desc "{resultDesc}" -footer "{footer}" -thumb "{image}"'''
 
-    # Run if person asked for a bag
-    elif getBag:
-        attacker.create_cc_nx(cc, 0, "charismaMod", "short", "bubble", None, None, "Bag of duck's", desc)
+    # Give the bag
+    elif getBag and you.cc_exists(cc) and you.get_cc(cc):
+        you.create_cc_nx(cc, 0, max(charismaMod+1,2), "long", "bubble", None, None, "Bag of ducsks", desc)
         result = "Ducks !"
         resultDesc = "Big bag with some ducks inside.\nThey seems quite hostile, maybe try throwing them at someone?"
-        return f'''embed -title "{result}" -desc "{resultDesc}" -f "{cc}|{attacker.cc_str(cc)}" -thumb "{image}"'''
+        return f'''embed -title "{result}" -desc "{resultDesc}" -f "{cc}|{you.cc_str(cc)}" -footer "{footer}" -thumb "{image}"'''
+
+    # Give duck to someone
+    elif give and you.cc_exists(cc) and you.get_cc(cc):
+        you.mod_cc(cc, -1)
+        result = "How generous of you"
+        resultDesc = f"{you} give a duck to {target}.\nIt seems supprised but doesn't mind?"
+        return f'''embed -title "{result}" -desc "{resultDesc}" -f "{cc}|{you.cc_str(cc)}" -footer "{footer}" -thumb "{image}"'''
+
+    # Pet the duck
+    elif pet and you.cc_exists(cc) and you.get_cc(cc):
+        result = "It's fluffy"
+        resultDesc = f"You take a duck out and pet and feed it.\nIt seems content and happy.\nIt hops back into the bag afterwards."
+        return f'''embed -title "{result}" -desc "{resultDesc}" -f "{cc}|{you.cc_str(cc)}" -footer "{footer}" -thumb "{image}"'''
+
+    # You set a duck free
+    elif free and you.cc_exists(cc) and you.get_cc(cc):
+        you.mod_cc(cc, -1)
+        result = "They will be back"
+        resultDesc = f"You free a duck to roam around unrestricted.\nIt waddles away menacingly as you contemplate what you've just done. "
+        return f'''embed -title "{result}" -desc "{resultDesc}" -f "{cc}|{you.cc_str(cc)}" -footer "{footer}" -thumb "{image}"'''
+
+    # You try to catch extra ducks.
+    elif catch:
+        if vroll("1d20").total > 14:
+            if  vroll("1d20").total > 14:
+                you.mod_cc(cc, +1)
+                result = "You got one"
+                resultDesc = f"You've found a duck and it decided to join you."
+                return f'''embed -title "{result}" -desc "{resultDesc}" -f "{cc}|{you.cc_str(cc)}" -footer "{footer}" -thumb "{image}"'''
+            else:
+                result = "So close"
+                resultDesc = f"This duck doesn't seem interested in joining you."
+                return f'''embed -title "{result}" -desc "{resultDesc}" -f "{cc}|{you.cc_str(cc)}" -footer "{footer}" -thumb "{image}"'''
+        else:
+            result = "Kinda empty around here"
+            resultDesc = f"There don't seem to be any ducks arond here"
+            return f'''embed -title "{result}" -desc "{resultDesc}" -f "{cc}|{you.cc_str(cc)}" -footer "{footer}" -thumb "{image}"'''
+
 
     # Run if we have target and bag and ducks in it
     # Make a DEX save roll and remove 1 charge from CC
-    elif target and attacker.cc_exists(cc) and attacker.get_cc(cc):
+    elif target and you.cc_exists(cc) and you.get_cc(cc) and matchthrow:
         check = vroll("1d20")
         roll20 = check.total
-        attacker.mod_cc(cc, -1)
+        you.mod_cc(cc, -1)
         if roll20 < 10+dexterityMod:
-            result = f"{attacker.name} throws a duck at {target}"
-            resultDesc = f"**DC:** {10+dexterityMod}\n**Roll 1d20: ** {roll20}\nThe duck flys at {target} face and starts flapping about.\nThere is a big comotion."
+            result = f"{you.name} throws a duck at {target}"
+            resultDesc = f"**DC:** {10+dexterityMod}\n**Roll** {check}\nThe duck flys at {target} face and starts flapping about.\nThere is a big comotion."
         else:
-            result = f"{attacker.name} tries to throw a duck at {target}"
-            resultDesc = f"**DC:** {10+dexterityMod}\n**Roll 1d20: ** {roll20}\nThe duck almost hits {target} but they've managed to duck.\nThe duck flys away."
-        return f'''embed -title "{result}" -desc "{resultDesc}" -f "{cc}|{attacker.cc_str(cc)}" -thumb "{image}"'''
+            result = f"{you.name} tries to throw a duck at {target}"
+            resultDesc = f"**DC:** {10+dexterityMod}\n**Roll** {check}\nThe duck almost hits {target} but they've managed to duck.\nThe duck flys away."
+        return f'''embed -title "{result}" -desc "{resultDesc}" -f "{cc}|{you.cc_str(cc)}" -footer "{footer}" -thumb "{image}"'''
 
-    elif attacker.get_cc(cc) < 1:
+    elif you.get_cc(cc) < 1:
         result = "Oh no!"
-        resultDesc = "It seem's you've run out of ducks,\nI'm sure they will come back if you wait a bit."
-        return f'''embed -title "{result}" -desc "{resultDesc}" -f "{cc}|{attacker.cc_str(cc)}" -thumb "{image}"'''
+        resultDesc = "It seem's you've run out of ducks,\nI'm sure they will come back if you wait a bit.\nYou can also try catching them yourself."
+        return f'''embed -title "{result}" -desc "{resultDesc}" -f "{cc}|{you.cc_str(cc)}" -footer "{footer}" -thumb "{image}"'''
 
 else:
     result = "There is only a hole in the bag"
     resultDesc = "Aren't you ashamed of using ducks on your level?"
-    return f'''embed -title "{result}" -desc "{resultDesc}"'''
+    return f'''embed -title "{result}" -desc "{resultDesc}" -footer "{footer}" -thumb "{image}"'''
 </drac2>

@@ -59,8 +59,8 @@ if level < 10:
 
     # You try to catch extra ducks.
     elif catch and you.cc_exists(cc):
-        if vroll("1d20").total > 14:
-            if  vroll("1d20").total > 14:
+        if vroll("1d20").total > 10:
+            if  vroll("1d20").total > 10:
                 you.mod_cc(cc, +1)
                 result = "You got one"
                 resultDesc = f"You've found a duck and it decided to join you."

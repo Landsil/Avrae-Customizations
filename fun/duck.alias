@@ -54,11 +54,11 @@ if level < 10:
     elif free and you.cc_exists(cc) and you.get_cc(cc):
         you.mod_cc(cc, -1)
         result = "They will be back"
-        resultDesc = f"You {free} a duck to roam around unrestricted.\nIt waddles away menacingly as you contemplate what you've just done. "
+        resultDesc = f"You {free} a duck to roam around unrestricted.\nIt waddles away menacingly as you contemplate what you've just done."
         return f'''embed -title "{result}" -desc "{resultDesc}" -f "{cc}|{you.cc_str(cc)}" -footer "{footer}" -thumb "{image}"'''
 
     # You try to catch extra ducks.
-    elif catch and you.cc_exists(cc) and you.get_cc(cc) :
+    elif catch and you.cc_exists(cc):
         if vroll("1d20").total > 14:
             if  vroll("1d20").total > 14:
                 you.mod_cc(cc, +1)

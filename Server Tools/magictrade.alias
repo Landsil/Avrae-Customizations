@@ -1,4 +1,82 @@
 <drac2>
 # This is a refactor of amazing magic store Developed by topper#0294 that you can find at https://avrae.io/dashboard/workshop/5f76e54a90e415e96a23c67b
 # If you have original store installed and custom pricing this code will use same svar.
-# pending ...
+
+# Variables
+title      = "Welcome to the Magic Trader!"
+footer     = "!magictrade [common/uncommon/rare/veryrare/legendary] | Developed by topper#0294 🤖, re-build by Landsil"
+itemsGvar  = load_json(get_gvar("bbffd99b-bae5-4287-a773-7c7566cdd53f"))
+pricesSvar = get_svar("magicshopprices").split(",")
+
+# Hardcoded config options for custom deployment for single server
+priceCommon    = "(1d6+1)*10"
+priceUncommon  = "(1d6+1)*100"
+priceRare      = "(2d10)*1000"
+priceVeryRare  = "(1d4+1)*10000"
+priceLegendary = "(2d6)*25000"
+
+itemRollCommon    = "3d6"
+itemRollUncommon  = "2d6+2"
+itemRollRare      = "1d8+2"
+itemRollVeryRare  = "1d4+1"
+itemRollLegendary = "1d4+1"
+
+# Based on user input define store rarity and how may items can be in the store. Lack of input defaults to common items
+if "&1&".lower() in ["common", "comon"]:
+    rarityArg = "common"
+    itemRoll = itemRollCommon
+    priceRange = pricesSvar[0] if pricesSvar[0] != False else priceCommon
+elif "&1&".lower() in ["uncommon"]:
+    rarityArg = "uncommon"
+    itemRoll = itemRollUncommon
+    priceRange = pricesSvar[1] if pricesSvar[1] != False else priceUncommon
+elif "&1&".lower() in ["rare"]:
+    rarityArg = "rare"
+    itemRoll = itemRollRare
+    priceRange = pricesSvar[2] if pricesSvar[2] != False else priceRare
+elif "&1&".lower() in ["very", "veryrare", "very rare"]:
+    rarityArg = "veryrare"
+    itemRoll = itemRollVeryRare
+    priceRange = pricesSvar[3] if pricesSvar[3] != False else priceVeryRare
+elif "&1&".lower() in ["legendary"]:
+    rarityArg = "legendary"
+    itemRoll = itemRollLegendary
+    priceRange = pricesSvar[4] if pricesSvar[4] != False else priceLegendary
+else:
+    rarityArg = "common"
+    itemRoll = itemRollCommon
+    priceRange = pricesSvar[0] if pricesSvar[0] != False else priceCommon
+
+# Roll for amount of items to be sold in the store based on rarity.
+sellItemsCount = roll(itemRoll)            
+
+# Make a list of items we will use
+itemRarityList = itemsGvar[rarityArg]
+
+# Count amount of items in gvar based on their rarity.
+itemRarityCount = len(itemRarityList)
+
+# Generate and store list of possible prices.
+PriceList  = []
+for i in range (0,int(sellItemsCount)): 
+    PriceList.append(roll(priceRange))
+PriceList.sort()
+
+# Generate and store list of possible items, Remove already rolled items from the list.
+itemlist  = []
+
+for i in range (0,int(sellItemsCount)):
+    itemRarityCount = len(itemRarityList)
+    item = itemRarityList.pop(randint(0,itemRarityCount))
+    itemlist.append(item)
+
+result = ""
+for i in range (0,int(sellItemsCount)):
+    result = (result + "**" + str(itemlist[i]) + "** for **" + str(PriceList[i]) + "GP**" + "\n")
+
+rarityArg = "very rare" if rarityArg == "veryrare" else rarityArg
+
+desc  = f"There are **{sellItemsCount}** **{rarityArg}** magic items in stock!\nThe items in stock are:\n {result}\n\n*To adjust prices type `!help magictrade`*"
+
+return f'''embed -title "{title}" -desc "{desc}" -footer "{footer}"'''
+</drac2>

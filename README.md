@@ -30,5 +30,8 @@ Those will often be a re-write and/or refactors of other people's work that I im
 
 - 
 
+### Other Tools
+Those things won't be Avrae and will all be self described. For eg. Public sheet that you can copy together with code that will ingest list of items and make it a JSON for usage in gvar.
+
 ### Learning
 Ignore that one, nothing useful there. Most things will be either wrong or broken.

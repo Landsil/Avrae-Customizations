@@ -23,6 +23,7 @@ Those are divided by usability, not by code type. What does what will be listed 
 Small projects for fun, good for learning or personal usage.
 
 - `duck.alias` Exercise in Custom Counters (CC), it gives you a bag with ducks inside and bunch of actions to perform.
+- `learn.alias` This is a fun showcase of converting epoch to date time and giving user a google calendar link
 
 ### Server Tools
 Bigger tools, good for learning or server wide usage. You are welcomed to self-deploy those with added customisation. 

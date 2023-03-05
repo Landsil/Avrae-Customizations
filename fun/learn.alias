@@ -1,0 +1,58 @@
+<drac2>
+# Variables
+args   = argparse(&ARGS&)      # Arguments after alias
+you    = character()           # grab character using alias
+footer = "`!learn` alias made by Landsil"
+subject= "&1&"
+
+start  = int(time())
+end    = int(time()+3628800) # adds 6 months
+start_dis = f"<t:{start}:d>"
+end_dis = f"<t:{end}:d>"
+
+calendarTitle = f"{you.name} finished learning {subject}"
+calendarTitle = calendarTitle.replace(" ", "+")
+
+def epoch_to_date(epoch):
+    secs = int(epoch)
+    days = int(secs / 86400) # Turns into days
+
+    # Calculate the year, month, and day of the input date.
+    year = 1970
+    month = 1
+    day = 1
+
+    while days >= 365:
+        if year % 4 == 0 and (year % 100 != 0 or year % 400 == 0):
+            days -= 366
+        else:
+            days -= 365
+        year += 1
+
+    if year % 4 == 0 and (year % 100 != 0 or year % 400 == 0):
+        days_in_month = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    else:
+        days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+
+    for i in range(len(days_in_month)):
+        if days >= days_in_month[i]:
+            days -= days_in_month[i]
+            month += 1
+        else:
+            break
+
+    day += days
+    date = (year, month, day)
+    gCalDate = f"{year}{month}{day}"
+
+    return gCalDate
+
+calendarDate = epoch_to_date(end)
+calendarLink = f"https://calendar.google.com/calendar/r/eventedit?text={calendarTitle}&dates={calendarDate}T100000/{calendarDate}T110000"
+calendarLinkEmbed = f"[Google Calendar]({calendarLink})"
+
+title  = f"{you.name} starts to learn `{subject}`"
+desc   = f"**Name:** {you.name}\n**Learning:** {subject}\n**Start:** {start_dis}\n**End:** {end_dis}\n\nDon't forget to deduce your gold with `!coins -500\n{calendarLinkEmbed}"
+
+return f'''embed -title "{title}" -desc "{desc}" -footer "{footer}"'''
+</drac2>

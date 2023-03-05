@@ -1,6 +1,5 @@
 <drac2>
 # Variables
-args   = argparse(&ARGS&)      # Arguments after alias
 you    = character()           # grab character using alias
 footer = "`!learn` alias made by Landsil"
 subject= "&1&"

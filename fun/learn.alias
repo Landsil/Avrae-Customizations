@@ -5,14 +5,6 @@ you    = character()           # grab character using alias
 footer = "`!learn` alias made by Landsil"
 subject= "&1&"
 
-start  = int(time())
-end    = int(time()+3628800) # adds 6 months
-start_dis = f"<t:{start}:d>"
-end_dis = f"<t:{end}:d>"
-
-calendarTitle = f"{you.name} finished learning {subject}"
-calendarTitle = calendarTitle.replace(" ", "+")
-
 def epoch_to_date(epoch):
     secs = int(epoch)
     days = int(secs / 86400) # Turns into days
@@ -46,6 +38,16 @@ def epoch_to_date(epoch):
     gCalDate = f"{year}{month}{day}"
 
     return gCalDate
+
+start  = int(time())
+end    = int(time()+3628800) # adds 6 months
+start_dis = f"<t:{start}:d>"
+end_dis = f"<t:{end}:d>"
+
+calendarTitle = f"{you.name} finished learning {subject}"
+calendarTitle = calendarTitle.replace(" ", "+")
+
+
 
 calendarDate = epoch_to_date(end)
 calendarLink = f"https://calendar.google.com/calendar/r/eventedit?text={calendarTitle}&dates={calendarDate}T100000/{calendarDate}T110000"

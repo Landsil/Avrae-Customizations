@@ -53,7 +53,7 @@ calendarLink = f"https://calendar.google.com/calendar/r/eventedit?text={calendar
 calendarLinkEmbed = f"[Google Calendar]({calendarLink})"
 
 title  = f"{you.name} starts to learn `{subject}`"
-desc   = f"**Name:** {you.name}\n**Learning:** {subject}\n**Start:** {start_dis}\n**End:** {end_dis}\n\nDon't forget to deduce your gold with `!coins -500\n{calendarLinkEmbed}"
+desc   = f"**Name:** {you.name}\n**Learning:** {subject}\n**Start:** {start_dis}\n**End:** {end_dis}\n\nDon't forget to deduce your gold with `!coins -500`\n{calendarLinkEmbed}"
 
 return f'''embed -title "{title}" -desc "{desc}" -footer "{footer}"'''
 </drac2>

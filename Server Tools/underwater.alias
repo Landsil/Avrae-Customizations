@@ -1,0 +1,169 @@
+<drac2>
+# Variables
+args       = argparse(&ARGS&)      # Arguments after alias
+
+# Grab custom arguments added by user
+target    = args.last("t")        # Shortcut for target
+result     = "You need to be in combat"
+resultDesc = "and specify argument, check `!help underwater` when in doubt."
+thumb     = args.last('thumb', image)
+image     = args.last('image', image)
+footer    = "!underwater alias made by Landsil"
+
+# Check arg for fire and if true check if combat is live, apply fire resistance to everyone if yes.
+fire  = "&1&" if "&1&".lower() in ['fire'] else False
+if fire:
+    response = []
+    if c:=combat():
+        for tArg in c.combatants:
+            p = tArg.add_effect("Underwater", buttons = [{
+                "label" : 'Remove "Underwater"',
+                "verb" : "leavers water",
+                "style" : 1,
+                "automation" : [
+                    {
+                        "type" : "remove_ieffect"
+                    }
+                ]
+            }])
+            tArg.add_effect("Fire resistant", passive_effects = {"resistances": ["fire"]}, parent = p, buttons = [{
+                "label" : 'Remove "Fire resistant"',
+                "verb" : "get's dry",
+                "style" : 1,
+                "automation" : [
+                    {
+                        "type" : "remove_ieffect"
+                    }
+                ]
+            }])
+            response.append(str(tArg.name))
+            result = "The following combatants now have fire resistance:"
+            resultDesc  = '\n'.join(response)
+            return f'''embed -title "{result}" -desc "{resultDesc}" -footer "{footer}" -thumb "{image}"'''
+
+# Calculate how long you can hold breath for.
+hold  = "&1&" if "&1&".lower() in ['hold', 'dive',] else False
+if hold:
+    minutes = (constitutionMod+1) if constitutionMod > -1 else 0.5
+    if c:=combat():
+        you = c.get_combatant(name)
+        p= you.add_effect("Underwater", buttons = [{
+                "label" : 'Remove "Underwater"',
+                "verb" : "leavers water",
+                "style" : 1,
+                "automation" : [
+                    {
+                        "type" : "remove_ieffect"
+                    }
+                ]
+            }])
+        you.add_effect("Diving", duration = minutes*10, parent = p, buttons = [{
+                "label" : 'Remove "Diving"',
+                "verb" : "surfaces",
+                "style" : 1,
+                "automation" : [
+                    {
+                        "type" : "remove_ieffect"
+                    }
+                ]
+            }])
+        result     = "You are holding your breath"
+        resultDesc = f'You have {minutes*10} rounds before you start suffocating'
+        return f'''embed -title "{result}" -desc "{resultDesc}" -footer "{footer}" -thumb "{image}"'''
+    else:
+        result     = "You are holding your breath"
+        resultDesc = f'You can do this for {minutes*10} rounds or {minutes} minutes'
+        return f'''embed -title "{result}" -desc "{resultDesc}" -footer "{footer}" -thumb "{image}"'''
+
+# Suffocate / drown
+suffocate  = "&1&" if "&1&".lower() in ['suffocate', 'choke', 'drown',] else False
+if suffocate:
+    rounds = max(constitutionMod,1)
+    if c:=combat():
+        you = c.get_combatant(name)
+        p= you.add_effect("Underwater", buttons = [{
+                "label" : 'Remove "Underwater"',
+                "verb" : "leavers water",
+                "style" : 1,
+                "automation" : [
+                    {
+                        "type" : "remove_ieffect"
+                    }
+                ]
+            }])
+        you.add_effect("Suffocating", duration = rounds, parent = p, buttons = [{
+                "label" : 'Remove "Suffocating"',
+                "verb" : "get's air",
+                "style" : 1,
+                "automation" : [
+                    {
+                        "type" : "remove_ieffect"
+                    }
+                ]
+            }])
+        result     = "You are suffocating"
+        resultDesc = f'''You will drop to 0 and start dying in **{rounds}** rounds, you can't be healed if you are dying while suffocating'''
+        return f'''embed -title "{result}" -desc "{resultDesc}" -footer "{footer}" -thumb "{image}"'''
+    else:
+        result     = "You are suffocating"
+        resultDesc = f'''You will drop to 0 and start dying in **{rounds}** rounds, you can't be healed if you are dying while suffocating'''
+        return f'''embed -title "{result}" -desc "{resultDesc}" -footer "{footer}" -thumb "{image}"'''
+
+# All via buttons
+go  = "&1&" if "&1&".lower() in ['all', 'button', 'buttons','go',] else False
+if go:
+    if c:=combat():
+        minutes = (constitutionMod+1) if constitutionMod > -1 else 0.5
+        for tArg in c.combatants:
+            p = tArg.add_effect("Underwater", buttons = [{
+                "label" : 'Remove "Underwater"',
+                "verb" : "leavers water",
+                "style" : 1,
+                "automation" : [
+                    {
+                        "type" : "remove_ieffect"
+                    }
+                ]
+            }],
+            buttons = [{
+                "label" : 'Dive',
+                "verb" : "dives under water",
+                "style" : 2,
+                "automation" : [
+                    {
+                        "type" : "target",
+                        "target" : "self",
+                        "effects" : {
+                            "name" : "Diving", 
+                            "duration" : minutes*10, 
+                            "buttons" : [{
+                                "label" : 'Remove "Dive"',
+                                "verb" : "leavers",
+                                "style" : 1,
+                                "automation" : [
+                                    {
+                                        "type" : "remove_ieffect2"
+                                    }
+                                ]
+                            }]
+                        }
+                    }
+                ]
+            }]
+            )
+            tArg.add_effect("Fire resistant", passive_effects = {"resistances": ["fire"]}, parent = p, buttons = [{
+                "label" : 'Remove "Fire resistant"',
+                "verb" : "get's dry",
+                "style" : 1,
+                "automation" : [
+                    {
+                        "type" : "remove_ieffect"
+                    }
+                ]
+            }])
+
+
+
+
+
+</drac2>

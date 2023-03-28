@@ -30,7 +30,7 @@ Bigger tools, good for learning or server wide usage. You are welcomed to self-d
 Those will often be a re-write and/or refactors of other people's work that I improved on. If that's the case they should reference original creator in first line.
 
 - `magictrade.alias` This is a refactor of amazing magic store Developed by topper#0294, this one is in Python, easier to read and modify.
-- `underwater.alias` Auto applies fire resitance to everyone, let's you track track hodling breath and suffocating.
+- `underwater.alias` Auto applies fire resistance to everyone, let's you track track holding breath and suffocating.
 
 ### Other Tools
 Those things won't be Avrae and will all be self described. For eg. Public sheet that you can copy together with code that will ingest list of items and make it a JSON for usage in gvar.

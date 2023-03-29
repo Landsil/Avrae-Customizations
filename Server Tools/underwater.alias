@@ -152,10 +152,10 @@ if go:
                     }
                 ]
             },
-             {
+            {
                 "label" : 'Suffocate',
                 "verb" : "dives under water",
-                "style" : 4,
+                "style" : 2,
                 "automation" : [{
                         "type" : "target",
                         "target" : "self",
@@ -175,8 +175,22 @@ if go:
                     }
                 ]
             },
-            ]
-            )
+            {
+                "label" : 'Dying',
+                "verb" : "is dying",
+                "style" : 4,
+                "automation" : [{
+                        "type" : "target",
+                        "target" : "self",
+                        "effects" : [{
+                            "name" : "Dying", 
+                            "type" : "damage",
+                            "damage" : "{caster.hp}"
+                        }]
+                    }
+                ]
+            },
+            ])
             tArg.add_effect("Fire resistant", passive_effects = {"resistances": ["fire"]}, parent = water, buttons = [{
                 "label" : 'Remove "Fire resistant"',
                 "verb" : "get's dry",
@@ -190,5 +204,6 @@ if go:
         result     = "Everyone entered water"
         resultDesc = f''''''
         return f'''embed -title "{result}" -desc "{resultDesc}" -footer "{footer}" -thumb "{image}"'''
+
 
 </drac2>

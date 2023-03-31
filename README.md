@@ -8,8 +8,8 @@ Let you store data for your code. Usually as JSON
 You can store here:
   - Aliases : those are commands you can run, they can both be full commands and also re-namings/shortcuts to other commands. `!alias`
   - Snippets : those are things you can add to actions to do something eg `sneak`
-  - User Variables (uvar) : Those are variables that are available only to you. This could be a list of characters stored by alias.    
- [Examples here](https://github.com/Landsil/Avrae-Customizations/blob/main/aliases-snippets.md)
+  - User Variables (uvar) : Those are variables that are available only to you. This could be a list of characters stored by alias.
+  - [Examples here](https://github.com/Landsil/Avrae-Customizations/blob/main/aliases-snippets.md)
  
  - **Characters**  
 This is a list of your characters and you can manage your custom actions there.    

@@ -2,9 +2,9 @@ Those are both basic and come fancy aliases and snippets for Avrae.
 You can copy whole command into discord and run it to add it.
 Can be found at https://avrae.io/dashboard/aliases in either of the tabs.
 
-Check Actions page to see how you can configure acitons in this way.
+Check [Actions](https://github.com/Landsil/Avrae-Customizations/blob/main/actions.md) page to see how you can configure actions in this way.
 
-### Aliaes
+## Aliaes
 Those are shortuts to run longer commands, you can use them instead of having a table with commands where you copy paste from.
 
 This will make it so `!Ali` changes my character to Alistair, straight up lazines.
@@ -18,7 +18,7 @@ This will make it so `!sneak` runs a stealth command, you have a space there to 
 !c stealth
 ```
 
-### Snippets
+## Snippets
 Those have to be used as part of other commands.
 
 This will make it so adding `bb` to attack will include appropirate Booming Blade usage.

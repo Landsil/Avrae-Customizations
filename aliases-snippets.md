@@ -19,19 +19,20 @@ This will make it so `!sneak` runs a stealth command, you have a space there to 
 ```
 
 ## Snippets
-Those have to be used as part of other commands.    
+Those have to be used as part of other commands.
+___
 
 This will make it so adding `bb` to attack will include appropirate Booming Blade usage.
 ```yaml
 !snippet bb -d "{{"0" if level<5 else ("1" if level<11 else "2" if level<17 else "3")+"d8"}} [thunder]" -f "Booming Blade | On a hit, the target immediately takes {{vroll(str((("1" if level<5 else "2" if level<11 else "3" if level<17 else "4") +"d8")))}} thunder damage if it willingly moves before the start of your next turn."
 ```
-
+___
 
 This will make it so adding `pw` to attack will include appropirate Planar Warrior usage.
 ```yaml
 !snippet pw -d1 "{{2 if character().levels.get('Ranger') >= 11 else 1}}d8 [force]" -dtype force -f "Planar Warrior|As a bonus action, choose one creature you can see within 30 feet of you. The next time you hit that creature on this turn with a weapon attack, all damage dealt by the attack becomes force damage, and the creature takes an extra 1d8 force damage from the attack."
 ```
-
+___
 
 This will add well described `Exhaustion` counter. There is no automation but helps remembering.
 ```yaml

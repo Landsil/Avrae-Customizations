@@ -33,7 +33,7 @@ This will make it so adding `pw` to attack will include appropirate Planar Warri
 
 This will add well described `Exhaustion` counter. There is no automation but helps remembering.
 ```yaml
-'!cc create "Exhaustion" -t "Exhaustion" -desc "1- Disadvantage on ability checks
+!cc create "Exhaustion" -t "Exhaustion" -desc "1- Disadvantage on ability checks
 2- Speed halved
 3- Disadvantage on attack rolls and saving throws
 4- Hit point maximum halved

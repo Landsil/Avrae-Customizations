@@ -44,3 +44,8 @@ This will add well described `Exhaustion` counter. There is no automation but he
 6- Death
 Finishing a long rest reduces a creature's exhaustion level by 1, provided that the creature has also ingested some food and drink. Also, being raised from the dead reduces a creature’s exhaustion level by 1." -reset long -resetby -1 -max 6 -min 0 -type bubble -value 0
 ```
+___
+This will make it so adding `ff` to attack will include appropirate Favored Foe usage.
+```yaml
+!snippet ff -d1 "{{"1d4" if RangerLevel<6 else "1d6" if RangerLevel<14 else "1d8"}}" -f "Favored Foe|The first time on each of your turns that you hit the favored enemy and deal damage to it, including when you mark it, you can increase that damage by 1d4. This feature's extra damage increases when you reach certain levels in this class: to 1d6 at 6th level and to 1d8 at 14th level."
+```

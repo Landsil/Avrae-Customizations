@@ -25,6 +25,20 @@ This will make it so `!lifecast` let's you cast healing magic correctly as a Lif
 {{not H or """-title "Help for casting as a Life Cleric" -desc '`!lifecast <\"spell name\"> <level> [args]`\n\nCasts healing spells, granting appropriate bonuses for a Life Domain Cleric.\nApplies Disciple of Life, Blessed Healer, and/or Supreme healing depending on your `ClericLevel`\nYou can use any args or snippets you would normally use on spells (see `!help cast`)\n\n**Example**\n`!lifecast \"Cure Wounds\" 9 -d 10` to cast `Cure Wounds` at `9`th level with an extra 10 healing' """}}
 ```
 ___
+This will make it so `!unicorn` automates "Unicorn Spirit"
+```yaml
+!alias unicorn embed <drac2>
+l = int(character().levels.get('Druid', 0))
+args = &ARGS&
+base = f'-color {color} -thumb {image}-title "Spirit Totem: Unicorn" -f "Meta:|**Healing:** {l}" -desc "The unicorn spirit lends its protection to those nearby. You and your allies gain advantage on all ability checks made to detect creatures in the spirit\'s aura. In addition, if you cast a spell using a spell slot that restores hit points to any creature inside or outside the aura, each creature of your choice in the aura also regains hit points equal to your druid level."'
+for i in args:
+  t = combat().get_combatant(i)
+  t.modify_hp(l, overflow=False)
+  base += f' -f "{t.name}:|{t.hp_str().replace("<","").replace(">","")}|inline"'
+return base
+</drac2>
+```
+___
 
 This will make it so `!sneak` runs a stealth command, you have a space there to add any advantege or bonuses you may have to you never have to type them manually. It may be worth the hassle to add notes for them so people know why you have advante for eg.
 ```yaml

@@ -13,12 +13,15 @@ thumb     = args.last('thumb', image)
 image     = args.last('image', image)
 footer    = "!underwater alias made by Landsil"
 
+c = combat()
+combatants = [c.get_combatant(t) for t in args.get('t') if c.get_combatant(t)] if args.get('t') else c.combatants
+
 # Check arg for fire and if true check if combat is live, apply fire resistance to everyone if yes.
 fire  = "&1&" if "&1&".lower() in ['fire'] else False
 if fire:
     response = []
-    if c:=combat():
-        for tArg in c.combatants:
+    if c:
+        for tArg in combatants:
             p = tArg.add_effect("Underwater", buttons = [{
                 "label" : 'Remove "Underwater"',
                 "verb" : "leavers water",
@@ -40,15 +43,15 @@ if fire:
                 ]
             }])
             response.append(str(tArg.name))
-            result = "The following combatants now have fire resistance:"
-            resultDesc  = '\n'.join(response)
-            return f'''embed -title "{result}" -desc "{resultDesc}" -footer "{footer}" -thumb "{image}"'''
+        result = "The following combatants now have fire resistance:"
+        resultDesc  = '\n'.join(response)
+        return f'''embed -title "{result}" -desc "{resultDesc}" -footer "{footer}" -thumb "{image}"'''
 
 # Calculate how long you can hold breath for.
 hold  = "&1&" if "&1&".lower() in ['hold', 'dive',] else False
 if hold:
     minutes = (constitutionMod+1) if constitutionMod > -1 else 0.5
-    if c:=combat():
+    if c:
         you = c.get_combatant(name)
         p= you.add_effect("Underwater", buttons = [{
                 "label" : 'Remove "Underwater"',
@@ -82,7 +85,7 @@ if hold:
 suffocate  = "&1&" if "&1&".lower() in ['suffocate', 'choke', 'drown',] else False
 if suffocate:
     rounds = max(constitutionMod,1)
-    if c:=combat():
+    if c:
         you = c.get_combatant(name)
         p= you.add_effect("Underwater", buttons = [{
                 "label" : 'Remove "Underwater"',
@@ -115,10 +118,10 @@ if suffocate:
 # All via buttons
 go  = "&1&" if "&1&".lower() in ['all', 'button', 'buttons','go',] else False
 if go:
-    if c:=combat():
+    if c:
         minutes = (constitutionMod+1) if constitutionMod > -1 else 0.5
         rounds = max(constitutionMod,1)
-        for tArg in c.combatants:
+        for tArg in combatants:
             water = tArg.add_effect("In Water", buttons = [{
                 "label" : 'Leave Water',
                 "verb" : "leavers water",
@@ -201,7 +204,7 @@ if go:
                     }
                 ]
             }])
-        result     = "Everyone entered water"
+        result     = "Target list entered water" if args.get('t') else "Everyone entered water"
         resultDesc = f''''''
         return f'''embed -title "{result}" -desc "{resultDesc}" -footer "{footer}" -thumb "{image}"'''
 

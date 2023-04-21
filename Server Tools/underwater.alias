@@ -14,7 +14,7 @@ image     = args.last('image', image)
 footer    = "!underwater alias made by Landsil"
 
 c = combat()
-combatants = [c.get_combatant(t) for t in args.get('t') if c.get_combatant(t)] if args.get('t') else c.combatants
+combatants = ([c.get_combatant(t) for t in args.get('t') if c.get_combatant(t)] if args.get('t') else c.combatants) if c else []
 
 # Check arg for fire and if true check if combat is live, apply fire resistance to everyone if yes.
 fire  = "&1&" if "&1&".lower() in ['fire'] else False

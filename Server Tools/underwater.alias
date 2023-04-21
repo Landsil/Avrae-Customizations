@@ -1,6 +1,7 @@
 <drac2>
 # Auto applies fire resistance to everyone, let's you track track holding breath and suffocating.
 # Work in progress as I try to make this all work via buttons instead of running commands.
+# Cheaky shortcut for making updates https://avrae.io/dashboard/workshop/6422d2a55b7f189d31ac90c3/edit
 
 # Variables
 args       = argparse(&ARGS&)      # Arguments after alias

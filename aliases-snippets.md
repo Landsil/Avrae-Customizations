@@ -29,8 +29,7 @@ ___
 
 This will make it so `!sneak` runs a stealth command, you have a space there to add any advantege or bonuses you may have to you never have to type them manually. It may be worth the hassle to add notes for them so people know why you have advante for eg.
 ```yaml
-!multiline
-!c stealth
+!alias sneak c stealth
 ```
 
 ## Snippets

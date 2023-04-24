@@ -36,6 +36,30 @@ This will make it so `!sneak` runs a stealth command, you have a space there to 
 Those have to be used as part of other commands.
 ___
 
+Elemental bullets.
+Make sure to edit name of snippet from defoult `aFire`, `ammo` to "Arrow" or "Bolt" and `element` to correct element it shuld be (has to be one that works with `-dtype`.
+```yaml
+!snippet aFire <drac2>
+ammo="Bullet" # change this
+element="Fire" #change this
+cc = f"{element} {ammo}"
+ch = character()
+v=ch.cc_exists(cc) and ch.get_cc(cc) > 0
+
+if not ch.cc_exists(cc):
+  character().create_cc_nx(name=cc, minVal=0)
+  return f""" -f "{cc}|Your are out of {element} Ammunition." """
+
+elif not v:
+  return f""" -f "{cc}|Your are out of {element} Ammunition." """
+
+else:
+  ch.mod_cc(cc, -1)
+  return f""" -dtype {element}"""
+</drac2> -f "{{cc}}{{" (-1)" if v else ""}}|{{ch.cc_str(cc) if ch.cc_exists(cc) else "*None*"}}"
+```
+___
+
 This will make it so adding `bb` to attack will include appropirate Booming Blade usage.
 ```yaml
 !snippet bb -d "{{"0" if level<5 else ("1" if level<11 else "2" if level<17 else "3")+"d8"}} [thunder]" -f "Booming Blade | On a hit, the target immediately takes {{vroll(str((("1" if level<5 else "2" if level<11 else "3" if level<17 else "4") +"d8")))}} thunder damage if it willingly moves before the start of your next turn."

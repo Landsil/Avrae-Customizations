@@ -1,0 +1,26 @@
+<drac2>
+# Rolls various d100 effects
+
+# Variables
+title      = "d100 things"
+footer     = "!d100 <subject> by Landsil"
+d100Gvar  = load_json(get_gvar("9abecd62-9922-4326-ad83-b84967929023"))
+
+# Based on user input define store rarity and how may items can be in the store. Lack of input defaults to common items
+if "&1&".lower() in ["drunk", "drunkenness"]:
+    rollType = "drunk"
+elif "&1&".lower() in ["hallucination"]:
+    rollType = "hallucination"
+else:
+    rollType = "missing"
+
+rollTypeList = d100Gvar[rollType] # Find category of rolls
+thingTypeCount = len(rollTypeList) # Count options in category
+
+result = rollTypeList.pop(randint(0,thingTypeCount))
+
+desc  = f"\nYou make a *{rollType}* roll, you get:\n\n*{result}*\n"
+
+return f'''embed -title "{title}" -desc "{desc}" -footer "{footer}"'''
+
+</drac2>

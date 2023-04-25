@@ -1,5 +1,7 @@
 <drac2>
 # Rolls various d100 effects
+# Drunk - https://www.dndbeyond.com/forums/dungeons-dragons-discussion/homebrew-house-rules/90033-drunken-trait-table
+# Hallucination - https://www.reddit.com/r/d100/comments/84c5yv/lets_build_a_list_of_hallucinations/
 
 # Variables
 title      = "d100 things"

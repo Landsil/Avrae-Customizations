@@ -40,3 +40,64 @@ _v: 2
 verb: uses
 activation_type: 4
 ```
+
+## Weapon with choise example    
+`  value: choice and choice in 'wallop'` import whole thing and edit in avrae dashboard of custom actions.
+
+```yaml
+name: Heavy Crossbow
+automation:
+- type: variable
+  name: walloping_ammo
+  value: choice and choice in 'wallop'
+  onError: '0'
+- type: target
+  target: each
+  effects:
+  - type: condition
+    condition: walloping_ammo
+    onTrue:
+    - type: counter
+      counter: Walloping Bolts
+      amount: '1'
+      errorBehaviour:
+    onFalse: []
+    errorBehaviour: 'false'
+  - type: attack
+    hit:
+    - type: condition
+      condition: lastCounterUsedAmount
+      onTrue:
+      - type: damage
+        damage: 1d10 + {dexterityMod} [magical piercing]
+        overheal: false
+      - type: save
+        stat: str
+        dc: '10'
+        fail:
+        - type: ieffect2
+          name: Prone
+          duration: -1
+          effects:
+            attack_advantage: -1
+          desc: A prone creature's only movement option is to crawl, unless it stands up and thereby ends the condition
+          buttons:
+          - automation:
+            - type: remove_ieffect
+              removeParent:
+            label: Stand Up
+            verb: stands up
+        success: []
+      - type: text
+        text: This ammunition packs a wallop. A creature hit by the ammunition must succeed on a DC 10 Strength saving throw or be knocked prone.
+      onFalse:
+      - type: damage
+        damage: 1d10 + {dexterityMod} [piercing]
+        overheal: false
+      errorBehaviour: 'false'
+    miss: []
+    attackBonus: dexterityMod + proficiencyBonus
+- type: text
+  text: Raifyire keeps his larger crossbow well oiled and maintained. On it in various places are various mementos.
+_v: 2
+```

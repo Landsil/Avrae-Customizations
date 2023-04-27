@@ -36,7 +36,7 @@ This will make it so `!sneak` runs a stealth command, you have a space there to 
 Those have to be used as part of other commands.
 ___
 
-Elemental bullets.
+Elemental bullets
 Make sure to edit name of snippet from defoult `aFire`, `ammo` to "Arrow" or "Bolt" and `element` to correct element it shuld be (has to be one that works with `-dtype`.
 ```yaml
 !snippet aFire <drac2>
@@ -57,6 +57,34 @@ else:
   ch.mod_cc(cc, -1)
   return f""" -dtype {element}"""
 </drac2> -f "{{cc}}{{" (-1)" if v else ""}}|{{ch.cc_str(cc) if ch.cc_exists(cc) else "*None*"}}"
+```
+___
+Walloping Ammo (in progress)
+Make sure to edit name of snippet from defoult `ammo` to "Arrow" or "Bolt" or something.
+```yaml
+!snippet wallop <drac2>
+ammo="Bullet" # change this
+cc = f"Walloping {ammo}"
+ch = character()
+v=ch.cc_exists(cc) and ch.get_cc(cc) > 0
+
+if not ch.cc_exists(cc):
+  character().create_cc_nx(name=cc, minVal=0)
+  return f""" -f "{cc}|Your are out of Walloping Ammunition." """
+
+elif not v:
+  return f""" -f "{cc}|Your are out of Walloping Ammunition." """
+
+else:
+  ch.mod_cc(cc, -1)
+  return f"{"dc": "10", "effect": "Walloped (Prone)|| 1", "title": "[name] uses walloping ammunition!", "desc": "A creature hit by the ammunition must succeed on a DC 10 Strength saving throw or be knocked prone.", "save": "str"}"
+</drac2> -f "{{cc}}{{" (-1)" if v else ""}}|{{ch.cc_str(cc) if ch.cc_exists(cc) else "*None*"}}"
+
+
+merge those
+
+
+!cvar wallop {"dc": "10", "effect": "Walloped {Prone)|| 1", "title": "[name] uses walloping ammunition!", "desc": "A creature hit by the ammunition must succeed on a DC 10 Strength saving throw or be knocked prone.", "save": "str"}
 ```
 ___
 

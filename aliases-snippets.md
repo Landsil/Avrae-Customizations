@@ -59,7 +59,7 @@ else:
 </drac2> -f "{{cc}}{{" (-1)" if v else ""}}|{{ch.cc_str(cc) if ch.cc_exists(cc) else "*None*"}}"
 ```
 ___
-Walloping Ammo (in progress)
+Walloping Ammo (in progress)    
 Make sure to edit name of snippet from defoult `ammo` to "Arrow" or "Bolt" or something.
 ```yaml
 !snippet wallop <drac2>
@@ -77,7 +77,7 @@ elif not v:
 
 else:
   ch.mod_cc(cc, -1)
-  return f"{"dc": "10", "effect": "Walloped (Prone)|| 1", "title": "[name] uses walloping ammunition!", "desc": "A creature hit by the ammunition must succeed on a DC 10 Strength saving throw or be knocked prone.", "save": "str"}"
+  return f""" -f "{"dc": "10", "effect": "Walloped (Prone)|| 1", "title": "[name] uses walloping ammunition!", "desc": "A creature hit by the ammunition must succeed on a DC 10 Strength saving throw or be knocked prone.", "save": "str"}"""
 </drac2> -f "{{cc}}{{" (-1)" if v else ""}}|{{ch.cc_str(cc) if ch.cc_exists(cc) else "*None*"}}"
 
 

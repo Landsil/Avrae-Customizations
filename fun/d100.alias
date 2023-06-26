@@ -1,11 +1,6 @@
 <drac2>
 # Rolls various d100 effects
-# Drunk - https://www.dndbeyond.com/forums/dungeons-dragons-discussion/homebrew-house-rules/90033-drunken-trait-table
-# Hallucination - https://www.reddit.com/r/d100/comments/84c5yv/lets_build_a_list_of_hallucinations/
-
 # Variables
-title      = "d100 things"
-footer     = "!d100 <subject> by Landsil"
 d100Gvar  = load_json(get_gvar("9abecd62-9922-4326-ad83-b84967929023"))
 
 # Based on user input define store rarity and how may items can be in the store. Lack of input defaults to common items
@@ -13,16 +8,28 @@ if "&1&".lower() in ["drunk", "drunkenness"]:
     rollType = "drunk"
 elif "&1&".lower() in ["hallucination"]:
     rollType = "hallucination"
+elif "&1&".lower() in ["gem", "gems", "diamond", "gemstone", "crystal"]:
+    rollType = "gemstone"
 else:
     rollType = "missing"
 
 rollTypeList = d100Gvar[rollType] # Find category of rolls
 thingTypeCount = len(rollTypeList) # Count options in category
 
-result = rollTypeList.pop(randint(0,thingTypeCount))
+number = int("&2&") if "&2&".strip('+-').isdecimal() else 0
+check = randint(0,thingTypeCount)
+randRoll = sum([check, number])
 
-desc  = f"\nYou make a *{rollType}* roll, you get:\n\n*{result}*\n"
+if randRoll < 0:
+    randRoll = 0
+elif randRoll >= thingTypeCount:
+    randRoll = thingTypeCount-1
+result = rollTypeList.pop(randRoll)
 
+desc  = f"\nYou make a *{rollType}* roll, you get:\n\n*{result}*"
+
+title      = "d100 things"
+footer     = f"!d100 <subject> by Landsil\n(roll of {check} with mod of {number})"
 return f'''embed -title "{title}" -desc "{desc}" -footer "{footer}"'''
 
 </drac2>

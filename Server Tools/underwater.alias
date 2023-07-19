@@ -1,6 +1,5 @@
 <drac2>
 # Auto applies fire resistance to everyone, let's you track track holding breath and suffocating.
-# Work in progress as I try to make this all work via buttons instead of running commands.
 # Cheaky shortcut for making updates https://avrae.io/dashboard/workshop/6422d2a55b7f189d31ac90c3/edit
 
 # Variables
@@ -25,7 +24,7 @@ if fire:
         for tArg in combatants:
             p = tArg.add_effect("Underwater", buttons = [{
                 "label" : 'Remove "Underwater"',
-                "verb" : "leavers water",
+                "verb" : "leaves water",
                 "style" : 1,
                 "automation" : [
                     {
@@ -56,7 +55,7 @@ if hold:
         you = c.get_combatant(name)
         p= you.add_effect("Underwater", buttons = [{
                 "label" : 'Remove "Underwater"',
-                "verb" : "leavers water",
+                "verb" : "leaves water",
                 "style" : 1,
                 "automation" : [
                     {
@@ -90,7 +89,7 @@ if suffocate:
         you = c.get_combatant(name)
         p= you.add_effect("Underwater", buttons = [{
                 "label" : 'Remove "Underwater"',
-                "verb" : "leavers water",
+                "verb" : "leaves water",
                 "style" : 1,
                 "automation" : [
                     {
@@ -125,7 +124,7 @@ if go:
         for tArg in combatants:
             water = tArg.add_effect("In Water", buttons = [{
                 "label" : 'Leave Water',
-                "verb" : "leavers water",
+                "verb" : "leaves water",
                 "style" : 3,
                 "automation" : [
                     {
